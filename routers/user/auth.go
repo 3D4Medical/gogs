@@ -27,6 +27,7 @@ const (
 	ACTIVATE                 = "user/auth/activate"
 	FORGOT_PASSWORD          = "user/auth/forgot_passwd"
 	RESET_PASSWORD           = "user/auth/reset_passwd"
+	RESET_PASSWORD_SUCCESS   = "user/auth/reset_passwd_success"
 	REG_SUCCESS              = "user/auth/reg_success"
 )
 
@@ -444,6 +445,12 @@ func ForgotPasswd(ctx *context.Context) {
 	ctx.HTML(200, FORGOT_PASSWORD)
 }
 
+func ForgotPasswdApp(ctx *context.Context) {
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
+	ForgotPasswd(ctx)
+}
+
 func ForgotPasswdPost(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("auth.forgot_password")
 
@@ -491,8 +498,16 @@ func ForgotPasswdPost(ctx *context.Context) {
 	ctx.HTML(200, FORGOT_PASSWORD)
 }
 
+func ForgotPasswdAppPost(ctx *context.Context) {
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
+	ForgotPasswdPost(ctx)
+}
+
 func ResetPasswd(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("auth.reset_password")
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
 
 	code := ctx.Query("code")
 	if len(code) == 0 {
@@ -506,6 +521,8 @@ func ResetPasswd(ctx *context.Context) {
 
 func ResetPasswdPost(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("auth.reset_password")
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
 
 	code := ctx.Query("code")
 	if len(code) == 0 {
@@ -541,7 +558,7 @@ func ResetPasswdPost(ctx *context.Context) {
 		}
 
 		log.Trace("User password reset: %s", u.Name)
-		ctx.Redirect(setting.AppSubURL + "/user/login")
+		ctx.HTML(200, RESET_PASSWORD_SUCCESS)
 		return
 	}
 

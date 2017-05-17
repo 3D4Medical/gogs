@@ -249,6 +249,8 @@ func runWeb(ctx *cli.Context) error {
 		m.Get("/email2user", user.Email2User)
 		m.Get("/forget_password", user.ForgotPasswd)
 		m.Post("/forget_password", user.ForgotPasswdPost)
+		m.Get("/forget_password_app", user.ForgotPasswdApp)
+		m.Post("/forget_password_app", user.ForgotPasswdAppPost)
 		m.Get("/logout", user.SignOut)
 	})
 	// ***** END: User *****
