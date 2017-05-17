@@ -27,6 +27,7 @@ const (
 	ACTIVATE                 = "user/auth/activate"
 	FORGOT_PASSWORD          = "user/auth/forgot_passwd"
 	RESET_PASSWORD           = "user/auth/reset_passwd"
+	REG_SUCCESS              = "user/auth/reg_success"
 )
 
 // AutoLogin reads cookie and try to auto-login.
@@ -263,6 +264,13 @@ func SignUp(ctx *context.Context) {
 	ctx.HTML(200, SIGNUP)
 }
 
+func SignUpApp(ctx *context.Context) {
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
+	ctx.Data["HideSignInButton"] = true
+	SignUp(ctx)
+}
+
 func SignUpPost(ctx *context.Context, cpt *captcha.Captcha, f form.Register) {
 	ctx.Data["Title"] = ctx.Tr("sign_up")
 
@@ -344,7 +352,17 @@ func SignUpPost(ctx *context.Context, cpt *captcha.Captcha, f form.Register) {
 	ctx.Redirect(setting.AppSubURL + "/user/login")
 }
 
+func SignUpAppPost(ctx *context.Context, cpt *captcha.Captcha, f form.Register) {
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
+	ctx.Data["HideSignInButton"] = true
+	SignUpPost(ctx, cpt, f)
+}
+
 func Activate(ctx *context.Context) {
+	ctx.Data["HideHeader"] = true
+	ctx.Data["HideFooter"] = true
+
 	code := ctx.Query("code")
 	if len(code) == 0 {
 		ctx.Data["IsActivatePage"] = true
@@ -387,9 +405,7 @@ func Activate(ctx *context.Context) {
 
 		log.Trace("User activated: %s", user.Name)
 
-		ctx.Session.Set("uid", user.ID)
-		ctx.Session.Set("uname", user.Name)
-		ctx.Redirect(setting.AppSubURL + "/")
+		ctx.HTML(200, REG_SUCCESS)
 		return
 	}
 

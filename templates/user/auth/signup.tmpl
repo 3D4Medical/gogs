@@ -43,10 +43,12 @@
 							<label></label>
 							<button class="ui green button">{{.i18n.Tr "auth.create_new_account"}}</button>
 						</div>
+						{{if not .HideSignInButton}}
 						<div class="inline field">
 							<label></label>
 							<a href="{{AppSubURL}}/user/login">{{.i18n.Tr "auth.register_hepler_msg"}}</a>
 						</div>
+						{{end}}
 					{{end}}
 				</div>
 			</form>

@@ -80,6 +80,7 @@
 	<div class="full height">
 		<noscript>Please enable JavaScript in your browser!</noscript>
 
+		{{if not .HideHeader}}
 		{{if not .PageIsInstall}}
 			<div class="following bar light">
 				<div class="ui container">
@@ -190,6 +191,7 @@
 					</div><!-- end grid -->
 				</div><!-- end container -->
 			</div><!-- end bar -->
+		{{end}}
 		{{end}}
 {{/*
 	</div>

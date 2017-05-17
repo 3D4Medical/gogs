@@ -199,6 +199,8 @@ func runWeb(ctx *cli.Context) error {
 
 		m.Get("/sign_up", user.SignUp)
 		m.Post("/sign_up", bindIgnErr(form.Register{}), user.SignUpPost)
+		m.Get("/sign_up_app", user.SignUpApp)
+		m.Post("/sign_up_app", bindIgnErr(form.Register{}), user.SignUpAppPost)
 		m.Get("/reset_password", user.ResetPasswd)
 		m.Post("/reset_password", user.ResetPasswdPost)
 	}, reqSignOut)
